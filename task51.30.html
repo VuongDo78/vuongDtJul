@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Content -->
+    <div class="container-fluid col-6 jumbotron ">
+        <h1 class="m-5 text-center"> Order Detail!!! </h1>
+        <div class="col-sm-8 mx-auto ">
+            <label>OrderID</label>
+            <input id="orderid" required type="text" class="form-control" style="width:100%;">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>Cỡ Combo</label>
+            <input id="select-size" required type="text" class="form-control" style="width:100%;">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>Đường kính</label>
+            <input id="size" required type="text" class="form-control">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>Sườn nướng</label>
+            <input id="ribs" required type="text" class="form-control">
+        </div>
+        <!-- đồ uống -->
+        <div class="col-sm-8 mx-auto ">
+            <label>Đồ uống</label>
+            <input id="drink-size" required type="text" class="form-control" style="width:100%;">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>Số lượng nước</label>
+            <input id="number-dink" required type="text" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>Loại Pizza</label>
+            <input id="pizza-size" required type="text" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>Salad</label>
+            <input id="Salad" required type="text" class="form-control" style="width:100%;">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>voucher</label>
+            <input id="voucher" required type="text" class="form-control" style="width:100%;">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>Thành tiền</label>
+            <input id="total" required type="text" class="form-control" style="width:100%;">
+        </div>
+        <div class="col-sm-8 mx-auto ">
+            <label>Giảm giá</label>
+            <input id="discount" required type="text" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>Họ và tên </label>
+            <input id="fullname" required type="text" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>email</label>
+            <input id="email" required type="email" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>Số điện thoại</label>
+            <input id="phone-number" required type="number" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>Địa chỉ</label>
+            <input id="adress" required type="text" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="col-sm-8 mx-auto ">
+            <label>Lời nhắn</label>
+            <input id="message" required type="text" class="form-control" style="width:100%;">
+        </div>
+
+        <div class="container my-3 bg-light">
+            <div class="col-md-12 text-center">
+                <button onclick=" myOnClickUpdateOrder()" type="button" class="btn btn-primary">Submit</button>
+                <button onclick="cancelData()" type="button" class="btn btn-primary">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    console.log($("#orderid").attr("id") + " là id của orderId")
+    console.log($("#orderid").html() + " là HTml của orderId")
+    console.log($("#select-size").attr("id") + " là id của COmbo")
+    console.log($("#select-size").html() + " là HTml của combo")
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const userId = urlParams.get('id');
+    const userOrderId = urlParams.get('orderId');
+    console.log(userOrderId + " là orderid");
+    console.log(userId + " là id");
+
+    //gọi mẫu get order by ID
+    function myOnClickGetOrderById() {
+        "use strict";
+
+        var vOrderId = userOrderId;
+        // hãy làm lại function này theo công nghệ ajax - jquery
+        $.ajax({
+            url: "http://42.115.221.44:8080/devcamp-pizza365/orders/" + userOrderId,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function (res) {
+                console.log(res);
+                var vData = res;
+                var gDataToSend = Object.entries(res);
+                console.log(Object.entries(res));
+                showData(vData);
+
+            },
+            error: function (ajaxContext) {
+                alert(ajaxContext.responseText)
+            }
+        });
+
+    }
+
+    myOnClickGetOrderById();
+    function showData(vData) {
+        $("#orderid").val(vData.orderId)
+        $("#select-size").val(vData.kichCo)
+        $("#size").val(vData.duongKinh)
+        $("#ribs").val(vData.suon)
+        $("#drink-size").val(vData.idLoaiNuocUong)
+        $("#number-dink").val(vData.soLuongNuoc)
+        $("#pizza-size").val(vData.loaiPizza)
+        $("#Salad").val(vData.salad)
+        $("#voucher").val(vData.idVourcher)
+        $("#total").val(vData.thanhTien)
+        $("#discount").val(vData.giamGia)
+        $("#fullname").val(vData.hoTen)
+        $("#email").val(vData.email)
+        $("#phone-number").val(vData.soDienThoai)
+        $("#adress").val(vData.diaChi)
+        $("#message").val(vData.loiNhan)
+
+    }
+
+    //confirm hoặc cancel 01 order (update)
+    function myOnClickUpdateOrder() {
+        "use strict";
+       if (validateData())
+        var vDatabaseIdOfOrder = userId;   //chú ý đây là ID tự sinh bởi Database, không phải là vOrderId, ( ví dụ: "qAsV7A3SRo")
+        //data to be sent 
+        var vObjectRequest = {
+            kichCo: $("#select-size").val(),
+            duongKinh: $("#size").val(),
+            suon: $("#ribs").val(),
+            salad: $("#Salad").val(),
+            loaiPizza: $("#pizza-size").val(),
+            idVourcher: $("#voucher").val(),
+            idLoaiNuocUong: $("#drink-size").val(),
+            soLuongNuoc: $("#number-dink").val(),
+            hoTen: $("#fullname").val(),
+            thanhTien: $("#total").val(),
+            email: $("#email").val(),
+            soDienThoai: $("#phone-number").val(),
+            diaChi: $("#adress").val(),
+            loiNhan: $("#message").val(),
+            trangThai: "Confirmed"
+        }
+
+        // phải implement ajax put call tại đây
+        console.log("nút")
+
+        $.ajax({
+            url: "http://42.115.221.44:8080/devcamp-pizza365/orders/" + userId,
+            type: 'PUT',
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(vObjectRequest),
+            dataType: 'json', // added data type
+            success: function (res) {
+                console.log(res);
+                console.log(Object.entries(res));
+                window.location.href = "51.20.html"
+
+            },
+            error: function (context) {
+                alert(context.responseText)
+            }
+        });
+    }
+    function cancelData() {
+        console.log(userOrderId + " là orderID khi ấn cancel")
+        // Gọi hàm hủy đơn
+        myOnClickCancelOrder();
+    }
+    // Đây là hàm hủy đơn
+    function myOnClickCancelOrder() {
+        "use strict";
+        var vDatabaseIdOfOrder = "";   //chú ý đây là ID tự sinh bởi Database, không phải là vOrderId, ( ví dụ: "qAsV7A3SRo")
+        //data to be sent 
+        var vObjectRequest = {
+            trangThai: "Cancel" //3: trang thai open, confirmed, cancel tùy tình huống
+        };
+        // phải implement ajax put call tại đây
+        console.log("nút")
+        $.ajax({
+            url: "http://42.115.221.44:8080/devcamp-pizza365/orders/" + userId,
+            type: 'PUT',
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(vObjectRequest),
+            dataType: 'json', // added data type
+            success: function (res) {
+                console.log(res);
+                
+                console.log(Object.entries(res));
+                window.location.href = "51.20.html"
+
+
+            },
+            error: function (context) {
+                alert(context.responseText)
+            }
+        });
+    }
+    //confirm hoặc cancel 01 order (update)
+    function myOnClickUpdateOrder() {
+        "use strict";
+       if (validateData())
+        var vDatabaseIdOfOrder = userId;   //chú ý đây là ID tự sinh bởi Database, không phải là vOrderId, ( ví dụ: "qAsV7A3SRo")
+        //data to be sent 
+        var vObjectRequest = {
+            kichCo: $("#select-size").val(),
+            duongKinh: $("#size").val(),
+            suon: $("#ribs").val(),
+            salad: $("#Salad").val(),
+            loaiPizza: $("#pizza-size").val(),
+            idVourcher: $("#voucher").val(),
+            idLoaiNuocUong: $("#drink-size").val(),
+            soLuongNuoc: $("#number-dink").val(),
+            hoTen: $("#fullname").val(),
+            thanhTien: $("#total").val(),
+            email: $("#email").val(),
+            soDienThoai: $("#phone-number").val(),
+            diaChi: $("#adress").val(),
+            loiNhan: $("#message").val(),
+            trangThai: "Confirmed"
+        }
+
+        // phải implement ajax put call tại đây
+        console.log("nút")
+
+        $.ajax({
+            url: "http://42.115.221.44:8080/devcamp-pizza365/orders/" + userId,
+            type: 'PUT',
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(vObjectRequest),
+            dataType: 'json', // added data type
+            success: function (res) {
+                console.log(res);
+                console.log(Object.entries(res));
+                alert('Đã confirm thành công');
+                window.location.href = "task51.20.html"
+
+            },
+            error: function (context) {
+                alert(context.responseText)
+            }
+        });
+    }
+    function cancerData() {
+        console.log(userOrderId + " là orderID khi ấn cancer")
+        // Gọi hàm hủy đơn
+        myOnClickCancerOrder();
+    }
+    // Đây là hàm hủy đơn
+    function myOnClickCancerOrder() {
+        "use strict";
+        var vDatabaseIdOfOrder = "";   //chú ý đây là ID tự sinh bởi Database, không phải là vOrderId, ( ví dụ: "qAsV7A3SRo")
+        //data to be sent 
+        var vObjectRequest = {
+            trangThai: "Cancer" //3: trang thai open, confirmed, cancel tùy tình huống
+        };
+        // phải implement ajax put call tại đây
+        console.log("nút")
+        $.ajax({
+            url: "http://42.115.221.44:8080/devcamp-pizza365/orders/" + userId,
+            type: 'PUT',
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(vObjectRequest),
+            dataType: 'json', // added data type
+            success: function (res) {
+                console.log(res);
+                
+                console.log(Object.entries(res));
+                alert('đã hủy đơn hàng');
+                window.location.href = "task51.20.html"
+
+
+            },
+            error: function (context) {
+                alert(context.responseText)
+            }
+        });
+    }
+    function validateData(){
+
+    }
+</script>
+
+</html>

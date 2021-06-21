@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2 style="text-align: center;">Danh sách Đơn hàng</h2>
+
+    <div class="jumbotron container">
+      <div class="row form-group">
+        <label class="col-sm-2 col-form-label" for="gOrderStatusSelect">Trạng thái Order</label>
+        <div class="col-sm-3">
+          <select id="gOrderStatusSelect" class="form-control">
+
+          </select>
+        </div>
+        <label class="col-sm-2 col-form-label" for="voucherCodeInput">Loại Pizza</label>
+        <div class="col-sm-3">
+          <select id="gPizzaTypeSelect" class="form-control">
+
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <button id="filter-data" class="btn btn-info">Lọc dữ liệu</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <table class="table table-bordered table-striped table-hover" id="order-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Kích cỡ combo</th>
+            <th>Loại Pizza</th>
+            <th>Nước uống</th>
+            <th>Thành tiền</th>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Trạng thái</th>
+            <th>Chi tiết</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  ​
+  <script>
+    'use strict';
+    /***
+     * Vùng khai báo biến toàn cục
+     */
+    var gPizzaType = ["hawaii", "bacon", "seafood"];
+
+    var gOrderStatus = ["open", "confirmed", "cancel"];
+
+    var gOrderColumn = [
+      "orderId", "kichCo", "loaiPizza", "idLoaiNuocUong", "thanhTien", "hoTen", "soDienThoai", "trangThai", "chiTiet"
+    ];
+
+    const gORDER_COL_ORDER_ID = 0;
+    const gORDER_COL_KICH_CO = 1;
+    const gORDER_COL_LOAI_PIZZA = 2;
+    const gORDER_COL_LOAI_NUOC_UONG = 3;
+    const gORDER_COL_THANH_TIEN = 4;
+    const gORDER_COL_HO_TEN = 5;
+    const gORDER_COL_DIEN_THOAI = 6;
+    const gORDER_COL_TRANG_THAI = 7;
+    const gORDER_COL_CHI_TIET = 8;
+
+    // biến toàn cục để luu trữ all orders
+    var gOrdersDB = {
+      orderObjects: [],
+      filterOrders: function (paramFilterData) {
+        var vOrderResults = [];
+        // cho thuc hien viec loc
+        for (var bI = 0; bI < this.orderObjects.length; bI++) {
+          if ((this.orderObjects[bI].loaiPizza === paramFilterData.pizzaType || paramFilterData.pizzaType === "All")
+            && (this.orderObjects[bI].trangThai === paramFilterData.orderStatus || paramFilterData.orderStatus === "All")) {
+            vOrderResults.push(this.orderObjects[bI]);
+          }
+        }
+        return vOrderResults;
+      }
+    };
+    /***
+     * Vùng xử lý nghiệp vụ, functions
+     */
+
+    // ham nay dung de load du lieu pizzatype vao o select
+    function loadPizzaTypeSelect() {
+      var vPizzaTypeSelect = $("#gPizzaTypeSelect");
+
+      $("<option/>", {
+        text: "All Pizza Types",
+        value: "All"
+      }).appendTo(vPizzaTypeSelect);
+
+      for (var bI = 0; bI < gPizzaType.length; bI++) {
+        $("<option/>", {
+          text: gPizzaType[bI],
+          value: gPizzaType[bI]
+        }).appendTo(vPizzaTypeSelect);
+      }
+    }
+
+    // ham nay dung de load du lieu pizzatype vao o select
+    function loadOrderStatusSelect() {
+      var vOrderStatusSelect = $("#gOrderStatusSelect");
+
+      $("<option/>", {
+        text: "All Status",
+        value: "All"
+      }).appendTo(vOrderStatusSelect);
+
+      for (var bI = 0; bI < gOrderStatus.length; bI++) {
+        $("<option/>", {
+          text: gOrderStatus[bI],
+          value: gOrderStatus[bI]
+        }).appendTo(vOrderStatusSelect);
+      }
+    }
+
+    loadPizzaTypeSelect();
+    loadOrderStatusSelect();
+    $(document).ready(function () {
+      // Gọi api để load all Orders, và lưu vào trong gOrdersDB
+      $.ajax({
+        url: "http://42.115.221.44:8080/devcamp-pizza365/orders",
+        type: "GET",
+        async: false,
+        success: function (resObj) {
+          gOrdersDB.orderObjects = resObj;
+
+        },
+        error: function (err) {
+          console.log(err.responseText);
+        }
+      });
+
+      // Khởi tạo DataTable, và gán data vào Table
+      var gOrderTable = $("#order-table").DataTable({
+        data: gOrdersDB.orderObjects,
+        columns: [
+          { data: gOrderColumn[gORDER_COL_ORDER_ID] },
+          { data: gOrderColumn[gORDER_COL_KICH_CO] },
+          { data: gOrderColumn[gORDER_COL_LOAI_PIZZA] },
+          { data: gOrderColumn[gORDER_COL_LOAI_NUOC_UONG] },
+          { data: gOrderColumn[gORDER_COL_THANH_TIEN] },
+          { data: gOrderColumn[gORDER_COL_HO_TEN] },
+          { data: gOrderColumn[gORDER_COL_DIEN_THOAI] },
+          { data: gOrderColumn[gORDER_COL_TRANG_THAI] },
+          { data: gOrderColumn[gORDER_COL_CHI_TIET] }
+        ],
+        columnDefs: [
+          {
+            targets: gORDER_COL_CHI_TIET,
+            defaultContent: "<button id='orderDetail' class='btn btn-info'>Chi tiết</button>"
+          }
+        ]
+      });
+      onFilterDataClick()
+      $("#filter-data").on("click", onFilterDataClick);
+
+      // thuc hien khi nut filter dc click
+      function onFilterDataClick() {
+        var vFilterData = {
+          orderStatus: "",
+          pizzaType: ""
+        };
+
+        // B1: Thu thap du lieu
+        getFilterData(vFilterData);
+        // B2: Validate data
+        var vIsValidateData = validateData(vFilterData);
+        if (vIsValidateData) {
+          // B3: Thuc hịên nghiệp vụ: lọc dữ liêu
+          var bOrderResult = [];
+          bOrderResult = gOrdersDB.filterOrders(vFilterData);
+
+          // B4: Xu lý front-end: hien thị dữ liệu đã lọc ra table 
+          loadOrderToTable(bOrderResult);
+        }
+
+      }
+
+      function getFilterData(paramFilterData) {
+        paramFilterData.orderStatus = $("#gOrderStatusSelect").val();
+        paramFilterData.pizzaType = $("#gPizzaTypeSelect").val();
+      }
+
+      function validateData(paramFilterData) {
+        if (paramFilterData.orderStatus === "") {
+          alert("Trang thai order chua được chọn!");
+          return false;
+        }
+
+        if (paramFilterData.pizzaType === "") {
+          alert("Loai pizza chua được chọn!");
+          return false;
+        }
+
+        return true;
+      }
+
+      // load order data to datatable
+      function loadOrderToTable(paramOrders) {
+        //gOrderTable.clear().draw();
+        gOrderTable.rows.add(paramOrders);
+        gOrderTable.draw();
+        gOrderTable.on('click', '#orderDetail', function () {
+          var $btn = $(this);
+          var $tr = $btn.closest('tr');
+          //var dataTableRow = myDataTable.row($tr[0]); // get the DT row so we can use the API on it
+          //var rowData = dataTableRow.data();
+
+          //var vSelectedRow = $(this).parents("tr");
+          var vSelectedUser = gOrderTable.row($tr);
+          var vUserData = vSelectedUser.data();
+          console.log("Đây là nút chi tiết ");
+
+          window.open("task51.30.html?id=" + vUserData.id + "&orderId=" + vUserData.orderId);
+
+
+        });
+      }
+      function showUserDetail() {
+
+        var vSelectedRow = $(this).parents("tr");
+        var vSelectedUser = gOrderTable.rows(vSelectedRow);
+        var vUserData = vSelectedUser.data();
+        console.log("Đây là nút chi tiết ");
+
+        window.open("task51.30.html?id=" + vUserData.id + "&orderId=" + vUserData.orderId);
+
+      }
+    });
+
+  </script>
+</body>
+
+</html>

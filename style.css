@@ -1,0 +1,35 @@
+.background-nav{
+    background-color:orange
+}
+.text-orange{
+    color:orange
+}
+.v-margin-64{
+    margin-top:64px  !important;margin-bottom: 0px!important;
+}
+.v-bottombar{border-bottom:6px solid #ccc!important}
+.v-padding-16{padding-top:16px!important;padding-bottom:16px!important}
+.v-padding-32{padding-top:32px!important;padding-bottom:32px!important}.v-padding-48{padding-top:48px!important;padding-bottom:48px!important}
+.v-padding-64{padding-top:64px!important;padding-bottom:64px!important}
+.v-xlarge{font-size:24px!important}
+.v-bg-lightgolden{
+    background-color: lightgoldenrodyellow!important;
+}
+.v-bg-yellow{
+    background-color:yellow!important;
+}
+.v-text-red{
+    color:red;
+}
+.v-bg-lightsalmon{
+    background-color:lightsalmon!important;
+}
+.v-bg-orange{
+    background-color:orange!important;
+}
+.v-padding-left-zero{
+    padding-left:0px !important;
+}
+.v-padding-right-zero{
+    padding-right:0px !important;
+}
