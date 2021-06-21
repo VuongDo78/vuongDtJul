@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,10 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Document</title>
 </head>
-
 <body>
-
-
     <div class='container'>
         <div class='row'>
             <div class='col-12'>
@@ -87,55 +83,38 @@
         </div>
         <div class="row">
             <div class="col-sm-3 v-bg-lightgolden ">
-
                 <div class='card-header text-center'>
                     <h5 class="card-title">Đa Dạng</h5>
                 </div>
                 <div class="card-body">
                     <p class="card-text pb-4">Số lượng pizza đa dạng,Có đầy đủ các loại pizza hiện nay</p>
-
                 </div>
-
             </div>
             <div class="col-sm-3 v-bg-yellow ">
-
                 <div class='card-header text-center'>
                     <h5 class="card-title">Chất Lượng</h5>
                 </div>
                 <div class="card-body">
-
                     <p class="card-text ">Nguyên liệu sạch 100%,Quy trình chế biến đảm bảo an toàn vệ sinh thực phẩm</p>
-
-
                 </div>
-
             </div>
             <div class="col-sm-3 v-bg-lightsalmon">
-
                 <div class='card-header v-bg-lightsalmon text-center'>
                     <h5 class="card-title">Hương Vị</h5>
                 </div>
                 <div class="card-body">
-
                     <p class="card-text pb-4">Hương vị ngon,độc ,lạ.Bạn chỉ có thể tìm thấy ở Pizza 365</p>
-
-
                 </div>
-
             </div>
             <div class="col-sm-3 v-bg-orange">
-
                 <div class='card-header text-center'>
                     <h5 class="card-title">Dịch Vụ</h5>
                 </div>
                 <div class="card-body">
-
                     <p class="card-text">Nhân viên thân thiện, nhà hàng hiện đại.Dịch vụ giao hàng nhanh, chất lượng tân
                         tiến.</p>
                 </div>
-
             </div>
-
         </div>
     </div>
     <div class='container'>
@@ -161,7 +140,6 @@
                     <input id='sizeS' class='btn btn-block v-bg-orange' value='Chọn' type='button'>
                 </div>
             </div>
-
             <div class="card col-sm-4 v-padding-left-zero v-padding-right-zero  " style="width: 18rem;">
                 <div class=' card-header v-bg-orange v-padding-left-zero '>
                     <h1 class='  text-center'>M (medium)</h1>
@@ -320,7 +298,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Thông tin Đơn Hàng</h5>
-
                 </div>
                 <div class="modal-body">
                     <form>
@@ -328,15 +305,12 @@
                             <label for="nameModal">Tên<span class='v-text-red'>*</span></label>
                             <input disabled type="text" class="form-control" id="nameModal" aria-describedby="emailHelp"
                                 placeholder="nhập tên">
-
                         </div>
                         <div class="form-group">
                             <label for="emailModal">Email<span class='v-text-red'>*</span></label>
                             <input disabled type="email" class="form-control" id="emailModal"
                                 aria-describedby="emailHelp" placeholder="nhập email">
-
                         </div>
-
                         <div class="form-group">
                             <label for="phonenumberModal">Số điện thoại<span class='v-text-red'>*</span></label>
                             <input disabled type="number" class="form-control" id="phonenumberModal"
@@ -385,14 +359,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     </div>
 
     <script>
-        //đặt màu đỏ cho dấu * bắt buộc
-
+        
         //Database menu Combo
         const G_DATABASE_PIZZA = {
             'comboPizza': [{ 'id': 'S', 'duongKinh': '20cm', 'suonNuong': 2, 'salad': '200g', 'nuocNgot': 2, 'thanhTien': 150000 },
@@ -401,13 +373,10 @@
             loaiPizza: ['Hawaii', 'Bacon', 'Seafood'],
             drinkOption: []
         }
-
         var gSelecetedCombo = [];
-
         var gSelectedPizzaType = '';
         selectedDrink = '';
         gSelecetedCombo = [];
-
         var gCustomer = {
             name: '',
             email: '',
@@ -419,8 +388,6 @@
             thanhTien: 0,
             orderID: ''
         };
-
-
         function onClickSizeS(param) {
             // map lựa chọn vào selectedMenuStructure
             gSelecetedCombo = G_DATABASE_PIZZA.comboPizza[0];
@@ -431,8 +398,6 @@
             console.log('Số lượng salad: ' + G_DATABASE_PIZZA.comboPizza[0].salad);
             console.log('Số lượng nước ngọt: ' + G_DATABASE_PIZZA.comboPizza[0].nuocNgot);
             console.log('Thành tiền: ' + G_DATABASE_PIZZA.comboPizza[0].thanhTien);
-
-
             //đổi màu nut đã chọn
             $('#sizeL').attr('class', "btn v-bg-orange btn-block");
             $('#sizeM').attr('class', "btn v-bg-orange btn-block");
@@ -451,8 +416,6 @@
             console.log('Số lượng salad: ' + G_DATABASE_PIZZA.comboPizza[1].salad);
             console.log('Số lượng nước ngọt: ' + G_DATABASE_PIZZA.comboPizza[1].nuocNgot);
             console.log('Thành tiền: ' + G_DATABASE_PIZZA.comboPizza[1].thanhTien);
-
-
             //set trạng thái của nut - set the buttons style 
             $("#sizeL").attr('class', "btn v-bg-orange btn-block");
             $("#sizeS").attr('class', "btn v-bg-orange btn-block");
@@ -471,9 +434,6 @@
             console.log('Số lượng salad: ' + G_DATABASE_PIZZA.comboPizza[2].salad);
             console.log('Số lượng nước ngọt: ' + G_DATABASE_PIZZA.comboPizza[2].nuocNgot);
             console.log('Thành tiền: ' + G_DATABASE_PIZZA.comboPizza[2].thanhTien);
-
-
-
             // thay đổi màu các nút chọn
             $('#sizeS').attr('class', "btn v-bg-orange btn-block");
             $(param).attr('class', "btn v-bg-lightgolden btn-block");//selected
@@ -494,8 +454,6 @@
         function selectedHawaii() {
             gSelectedPizzaType = G_DATABASE_PIZZA.loaiPizza[0];
             console.log(' pizza đã chọn là :' + gSelectedPizzaType);
-
-
             // thay đổi màu các nút chọn
             $('#btnBacon').attr('class', "btn v-bg-orange btn-block");
             $(this).attr('class', "btn v-bg-lightgolden btn-block");//selected
@@ -515,7 +473,6 @@
         function selectedSeafood() {
             gSelectedPizzaType = G_DATABASE_PIZZA.loaiPizza[2];
             console.log(' pizza đã chọn là :' + gSelectedPizzaType);
-
             // thay đổi màu các nút chọn
             $('#btnHawaii').attr('class', "btn v-bg-orange btn-block");
             $(this).attr('class', "btn v-bg-lightgolden btn-block");//selected
@@ -528,14 +485,11 @@
         //load data to select drink
         function loadDataDrink(param) {
             var selDrinkElement = $('#sel-drink');
-
-
             for (var i = 0; i < param.length; i++) {
                 var newOption = $('<option>');
                 newOption.attr('value', param[i].maNuocUong)
                     .attr('label', param[i].tenNuocUong)
                 selDrinkElement.append(newOption);
-
             }
         }
         // get data danh sách nước uống từ api
@@ -548,7 +502,6 @@
                     loadDataDrink(res);
                     console.log(res);
                     console.log(G_DATABASE_PIZZA);
-
                 },
                 error: function (errObj) {
                     console.log(errObj.responseText);
@@ -736,9 +689,6 @@
                 taoDon();
             });
         });
-
     </script>
 </body>
-
-
 </html>
