@@ -10,9 +10,6 @@ class Menu extends Component {
     }
     render() {
         var newDiv = document.createElement('div');
-
-        
-       
         const menu = STAFFS.map(eachStaff => {
             return (
                 <div key={eachStaff.id} className=" col-sm-6 col-md-4  mt-5">
@@ -56,12 +53,7 @@ class Menu extends Component {
 
                 </div>
             );
-
-
         });
-
-
-
         return (
             <div id="parent"  className="container-fluid">
                 <div className="row">
