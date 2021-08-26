@@ -30,5 +30,4 @@ class StaffDetail extends Component {
         )
     }
 }
-
 export default StaffDetail;
