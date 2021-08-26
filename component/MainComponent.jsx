@@ -4,9 +4,7 @@ import Menu from './MenuComponent';
 import StaffDetail from './StaffDetailComponent';
 import StaffList from './StaffListComponent';
 import { STAFFS } from './staffs';
-
 class Main extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +12,6 @@ class Main extends Component {
             selectedStaff: null
         };
     }
-
     onStaffSelect(staffId) {
         this.setState({ selectedStaff: staffId });
     }
