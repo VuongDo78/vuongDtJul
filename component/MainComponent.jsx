@@ -15,7 +15,6 @@ class Main extends Component {
     onStaffSelect(staffId) {
         this.setState({ selectedStaff: staffId });
     }
-
     render() {
         return (
             <div>
@@ -33,5 +32,4 @@ class Main extends Component {
         );
     }
 }
-
 export default Main;
