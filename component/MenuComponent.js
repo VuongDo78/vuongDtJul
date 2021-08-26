@@ -5,17 +5,14 @@ import { STAFFS } from './staffs';
 import dateFormat from 'dateformat';
 import jquery from 'jquery';
 class Menu extends Component {
-
     constructor(props) {
         super(props);
     }
-
     render() {
         var newDiv = document.createElement('div');
 
         
-        // em làm như này là sai e nhé
-        // vì em đang dùng các thuộc tính js mà không phải là jsx
+       
         const menu = STAFFS.map(eachStaff => {
             return (
                 <div key={eachStaff.id} className=" col-sm-6 col-md-4  mt-5">
