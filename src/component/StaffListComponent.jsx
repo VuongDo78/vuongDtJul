@@ -6,21 +6,36 @@ import StaffDetail from './StaffDetailComponent';
 class StaffList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selectedStaff: null
+        this.props={
+           
         }
+        this.state = {
+            selectedStaff: null ,
+            classNameStaffList : "col-sm-6 col-md-4 mt-5"
+        }
+       
     }
     onStaffSelect(staff) {
         this.setState({ selectedStaff: staff });
+    }
+    sixCol(classname){
+        this.setState({classNameStaffList:classname})
     }
 
     render() {
         if (this.props.staffs != null) {
             const staffList = this.props.staffs.map((staff) => {
                 return (
-                    <div key={staff.id} className="col-sm-6 col-md-4 mt-5">
+                    <div key={staff.id} className={this.props.classNameStaffList}>
                         <Card onClick={() => this.onStaffSelect((staff))}>
+
+                            <CardImgOverlay className="cardImgOverlay">
+                                
+
+                            </CardImgOverlay>
                             <CardBody>
+                            <CardImg width="100%" src={staff.image} />
+
                                 <CardTitle className="cardTittle text-center mt-4">{staff.name}</CardTitle>
                             </CardBody>
                         </Card>
@@ -45,4 +60,4 @@ class StaffList extends Component {
     }
 }
 
-export default StaffList;
+export default StaffList  ;
