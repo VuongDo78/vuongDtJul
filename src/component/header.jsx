@@ -4,15 +4,11 @@ import { Navbar, NavbarBrand, Jumbotron, NavItem, NavDropdown, Nav, } from 'reac
 class Header extends Component {
     render() {
         return (
-           <div>
-               
+            <div>
                 <Navbar dark color="primary">
-                   
                         <NavbarBrand href="/">Quản Lý Nhân Sự Ver 1.0</NavbarBrand>
-                        
-                    
                 </Navbar>
-</div>
+            </div>
                 
         );
     }
