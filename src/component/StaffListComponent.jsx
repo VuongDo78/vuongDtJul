@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardImgOverlay, CardText, CardBody, CardTitle, CardImg } from 'reactstrap'
+import { Card, CardBody, CardTitle, CardImg } from 'reactstrap'
 import dateFormat from 'dateformat';
 import StaffDetail from './StaffDetailComponent';
 
