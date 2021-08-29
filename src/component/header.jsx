@@ -9,8 +9,7 @@ class Header extends Component {
                 <Navbar dark color="primary">
                    
                         <NavbarBrand href="/">Quản Lý Nhân Sự Ver 1.0</NavbarBrand>
-                        <NavbarBrand href="/">Phòng Ban</NavbarBrand>
-                        <NavbarBrand href="/">Bảng Lương</NavbarBrand>
+                        
                     
                 </Navbar>
 </div>
