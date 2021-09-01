@@ -28,9 +28,9 @@ class StaffList extends Component {
                 return (
                     <div key={staff.id} className={this.props.classNameStaffList}>
                        
-                            </CardImgOverlay>
+                        <Card onClick={() => this.onStaffSelect((staff))}>
                             <CardBody>
-                            <CardImg width="100%" src={staff.image} />
+                                <CardImg width="100%" src={staff.image} />
 
                                 <CardTitle className="cardTittle text-center mt-4">{staff.name}</CardTitle>
                             </CardBody>
