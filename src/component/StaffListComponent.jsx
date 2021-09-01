@@ -27,11 +27,7 @@ class StaffList extends Component {
             const staffList = this.props.staffs.map((staff) => {
                 return (
                     <div key={staff.id} className={this.props.classNameStaffList}>
-                        <Card onClick={() => this.onStaffSelect((staff))}>
-
-                            <CardImgOverlay className="cardImgOverlay">
-                                
-
+                       
                             </CardImgOverlay>
                             <CardBody>
                             <CardImg width="100%" src={staff.image} />
