@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "bootstrap": "4.0",
+    "dateformat": "^4.5.1",
+    "react": "^17.0.2",
+    "reactstrap": "^8.9.0"
+  }
+}
