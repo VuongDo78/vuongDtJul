@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
 import {NavLink} from 'react-router-dom';
 
-
 class Header extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +10,6 @@ class Header extends Component {
         };
         this.toggleNav = this.toggleNav.bind(this); // bind() để toggleNav có thể gọi được bên trong render
     }
-
     //responsive của Navbar
     toggleNav () {
         this.setState ({
