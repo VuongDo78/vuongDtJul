@@ -1,7 +1,6 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card} from 'reactstrap';
 import { Link } from 'react-router-dom';
-
 function Department(props) {
 
     const departments = props.department.map((department) => {
@@ -32,5 +31,4 @@ function Department(props) {
         </div>
     );
 }
-
 export default Department;    
