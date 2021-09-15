@@ -1,5 +1,5 @@
 import React from 'react';
-import STAFFS from './staffs';
+
 import './clock.js';
 
 

@@ -24,24 +24,21 @@ class Menu extends Component {
             staffs: props.staffs,
             classNameStaffList: 'col-sm-6 col-md-2 mt-5',
             dropdownOpen: false,
+            isModalOpen: false,
         }
         this.searchName = this.searchName.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.toggleBtnDropdown = this.toggleBtnDropdown.bind(this);
-        this.state = {
-            isModalOpen: false,
-            dropdownOpen: false
-        };
     }
 
     // phương thức lọc input value trong staffs nhận value cả chữ hoa và chữ thường
     searchName(values) {
-        const result = this.props.staffs.filter(s => s.name.toLowerCase().match(values.search));
+        const result = this.props.staffs.filter(s => s.name.toLowerCase().match(values.search.toLowerCase()));
         this.setState({
             staffs: result,
-            name: values.value
+            
         });
         //event.preventDefault();
     }
@@ -74,7 +71,6 @@ class Menu extends Component {
         })
         this.props.onAddStaff(newStaffs)
     }
-
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen,
@@ -120,7 +116,7 @@ class Menu extends Component {
             );
         }
 
-        const menu = this.props.staffs.map((staff) => {
+        const menu = this.state.staffs.map((staff) => {
             return (
 
                 <div className={this.props.classNameStaffList} key={staff.id}>
@@ -228,13 +224,13 @@ class Menu extends Component {
                                                 }}
                                             />
                                             <Errors
-                                            className="text-danger"
-                                            model=".dob"
-                                            show="touched"
-                                            messages={{
-                                                required: '* trường bắt buộc',
-                                                
-                                            }}
+                                                className="text-danger"
+                                                model=".dob"
+                                                show="touched"
+                                                messages={{
+                                                    required: '* trường bắt buộc',
+
+                                                }}
                                             />
                                         </Col>
                                     </Row>
@@ -244,18 +240,18 @@ class Menu extends Component {
                                             <Control.text type="date" model=".startDate" id="startDate" name="startDate"
                                                 className="form-control"
                                                 validators={{
-                                                    required,isNumber
-                                                    
+                                                    required
+
                                                 }}
                                             />
                                             <Errors
-                                            className="text-danger"
-                                            model=".dob"
-                                            show="touched"
-                                            messages={{
-                                                required: '* trường bắt buộc',
-                                                
-                                            }}
+                                                className="text-danger"
+                                                model=".startDate"
+                                                show="touched"
+                                                messages={{
+                                                    required: '* trường bắt buộc',
+
+                                                }}
                                             />
                                         </Col>
                                     </Row>
@@ -263,10 +259,10 @@ class Menu extends Component {
                                         <Label htmlFor="department" md={3}>Bộ phận</Label>
                                         <Col md={9}>
                                             <Control.select model=".department" id="department" name="department"
-                                            className="form-control"
-                                            validators={
-                                                required
-                                            }
+                                                className="form-control"
+                                                validators={
+                                                    required
+                                                }
                                             >
                                                 <option value="Dept01" selected>Sale</option>
                                                 <option value="Dept02">HR</option>
@@ -275,40 +271,39 @@ class Menu extends Component {
                                                 <option value="Dept05">Finance</option>
                                             </Control.select>
                                             <Errors
-                                            className="text-danger"
-                                            model=".dob"
-                                            show="touched"
-                                            messages={{
-                                                required: '* trường bắt buộc',
-                                                
-                                            }}
+                                                className="text-danger"
+                                                model=".department"
+                                                show="touched"
+                                                messages={{
+                                                    required: '* trường bắt buộc',
+                                                }}
                                             />
                                         </Col>
                                     </Row>
                                     <Row className="form-group">
                                         <Label htmlFor="salaryScale" md={3}>Hệ số lương</Label>
                                         <Col md={9}>
-                                            <Control.text type="number" model=".number" id="salaryScale" name="salaryScale" placeholder="1.0 -> 3.0"
+                                            <Control.text   model=".salaryScale" name="salaryScale" placeholder="1.0 -> 3.0"
                                                 className="form-control"
                                                 validators={{
                                                     required, isNumber
                                                 }}
                                             />
                                             <Errors
-                                            className="text-danger"
-                                            model=".dob"
-                                            show="touched"
-                                            messages={{
-                                                required: '* trường bắt buộc',
-                                                isNumber :"Trường này chỉ nhận kí tự là số"
-                                            }}
+                                                className="text-danger"
+                                                model=".salaryScale"
+                                                show="touched"
+                                                messages={{
+                                                    required: '* trường bắt buộc',
+                                                    isNumber: "Trường này chỉ nhận kí tự là số"
+                                                }}
                                             />
                                         </Col>
                                     </Row>
                                     <Row className="form-group">
                                         <Label htmlFor="annualLeave" md={3}>Ngày nghỉ còn lại</Label>
                                         <Col md={9}>
-                                            <Control.text type="number" model=".annualLeave" id="annualLeave" name="annualLeave" placeholder="ex: 1.5"
+                                            <Control.text s model=".annualLeave" name="annualLeave" placeholder="ex: 1.5"
                                                 className="form-control"
                                                 validators={{
                                                     required, isNumber
@@ -316,7 +311,7 @@ class Menu extends Component {
                                             />
                                             <Errors
                                             className="text-danger"
-                                            model=".dob"
+                                            model=".annualLeave"
                                             show="touched"
                                             messages={{
                                                 required: '* trường bắt buộc',
@@ -329,7 +324,7 @@ class Menu extends Component {
                                     <Row className="form-group">
                                         <Label htmlFor="overTime" md={3}>Số ngày làm thêm</Label>
                                         <Col md={9}>
-                                            <Control.text type="number" model=".overTime" id="overTime" name="overTime" placeholder="ex: 1.5"
+                                            <Control.text  model=".overTime"  name="overTime" placeholder="ex: 1.5"
                                                 className="form-control"
                                                 validators={{
                                                     required, isNumber
@@ -337,7 +332,7 @@ class Menu extends Component {
                                             />
                                             <Errors
                                             className="text-danger"
-                                            model=".dob"
+                                            model=".overTime"
                                             show="touched"
                                             messages={{
                                                 required: '* trường bắt buộc',
