@@ -81,8 +81,8 @@ class Menu extends Component {
             this.state.salaryScale === '' ||
             this.state.annualLeave === '' ||
             this.state.overTime === '' ||
-            this.state.startDate === '' ||
-            this.state.dob) {
+            this.state.startDate.length === 0 ||
+           this.state.dob.length === 0) {
             alert("bạn chưa điền form")
         }
         else {
@@ -137,9 +137,9 @@ class Menu extends Component {
             salaryScale: '',
             annualLeave: '',
             overTime: '',
-            dob: '',
+            dob:'',
             startDate: '',
-
+           
         };
 
         //validate tên
@@ -167,9 +167,9 @@ class Menu extends Component {
             errors.overTime = 'Số ngày làm thêm không nhiều hơn 3 kí tự';
         else if (this.state.touched.overTime && overTime.split('').filter(x => x === '.').length !== 1)
             errors.overTime = 'Số ngày làm thêm của bạn phải có dấu chấm ở giữa (ví dụ 1.5)';
-        if (this.state.touched.dob && dob.length === '')
+        if (this.state.touched.dob && dob.length === 0)
             errors.dob = 'đây là trường bắt buộc'
-        if (this.state.touched.startDate && startDate.length === '')
+        if (this.state.touched.startDate && startDate.length === 0)
             errors.startDate = 'đây là trường bắt buộc'
         return errors;
 
@@ -179,7 +179,9 @@ class Menu extends Component {
         const errors = this.validate(this.state.fullname,
             this.state.salaryScale,
             this.state.annualLeave,
-            this.state.overTime);
+            this.state.overTime,
+            this.state.dob,
+            this.state.startDate);
 
 
 
@@ -226,7 +228,7 @@ class Menu extends Component {
                 </div>
 
 
-                <Form onSubmit={this.searchName} >
+                 <Form onSubmit={this.searchName} >
                     <FormGroup className="form-group" >
 
                         <Input className="form-control mb-3  " type="text" id="search" name="search"
@@ -237,7 +239,7 @@ class Menu extends Component {
                     </FormGroup>
 
 
-                </Form>
+                 </Form>
 
                 <div className="row">
                     <div className=" col-md-7"></div>
@@ -287,13 +289,12 @@ class Menu extends Component {
                                         <Col md={9}>
                                             <Input type="text" id="fullname" name="fullname" placeholder="từ 5 - 30 kí tự"
                                                 value={this.state.fullname}
-                                                valid={errors.fullname === '' && this.state.touched.fullname}
-                                                invalid={errors.fullname !== ''}
-                                                /*isInputValid={errors.fullname !== ''}*/
+                                                valid={errors.fullname == "" && this.state.touched.fullname}
+                                                invalid={errors.fullname !== ""}
                                                 onBlur={this.handleBlur('fullname')}
                                                 onChange={this.handleInputChange}
-                                                
-                                    
+
+
 
                                             />
                                             <FormFeedback>{errors.fullname}</FormFeedback>
@@ -305,7 +306,11 @@ class Menu extends Component {
                                             <Input type="date" id="dob" name="dob"
                                                 value={this.state.dob}
                                                 onChange={this.handleInputChange}
-                                                />
+                                                valid={errors.dob === "" && this.state.touched.dob}
+                                                invalid={errors.dob !== ""}
+                                               
+                                            />
+                                            <FormFeedback>{errors.dob}</FormFeedback>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup row>
@@ -314,8 +319,10 @@ class Menu extends Component {
                                             <Input type="date" id="startDate" name="startDate"
                                                 value={this.state.startDate}
                                                 onChange={this.handleInputChange}
-                                                
+                                                valid={errors.startDate === "" && this.state.touched.startDate}
+                                                invalid={errors.startDate !== ""}
                                             />
+                                            <FormFeedback>{errors.startDate}</FormFeedback>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup row>
@@ -325,7 +332,7 @@ class Menu extends Component {
                                                 name="department"
                                                 value={this.state.department}
                                                 onChange={this.handleInputChange}
-                                               
+
                                             >
                                                 <option value="Dept01" selected>Sale</option>
                                                 <option value="Dept02">HR</option>
