@@ -8,9 +8,11 @@ import {
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { DEPARTMENTS } from './staffs';
-import { propTypes } from 'react-bootstrap/esm/Image';
+import { STAFFS } from './staffs';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { baseUrl } from '../redux/Base_url';
+import { Loading } from "./Loading"
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -21,10 +23,11 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            staffs: props.staffs,
+            staffs: STAFFS,
             classNameStaffList: 'col-sm-6 col-md-2 mt-5',
             dropdownOpen: false,
             isModalOpen: false,
+            search: '',
         }
         this.searchName = this.searchName.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -35,10 +38,10 @@ class Menu extends Component {
 
     // phương thức lọc input value trong staffs nhận value cả chữ hoa và chữ thường
     searchName(values) {
-        const result = this.props.staffs.filter(s => s.name.toLowerCase().match(values.search.toLowerCase()));
+        const result = this.props.staffs.staffs.filter(s => s.name.toLowerCase().match(values.search.toLowerCase()));
         this.setState({
-            staffs: result,
-            
+            search: values.search,
+
         });
         //event.preventDefault();
     }
@@ -51,25 +54,18 @@ class Menu extends Component {
 
 
     handleSubmit(values) {
-        const department = DEPARTMENTS.find(department => department.id === this.props.department);
         const newStaff = {
-
-            id: this.props.staffs.length,
             name: values.fullname,
             doB: values.dob,
             salaryScale: values.salaryScale,
             startDate: values.startDate,
-            department: department,
+            departmentId: values.department,
             annualLeave: values.annualLeave,
             overTime: values.overTime,
             image: '/asset/images/alberto.png',
         };
-        const newStaffs = [...this.props.staffs, ...[newStaff]];
         alert("Thêm nhân viên " + newStaff.name + " thành công!");
-        this.setState({
-            staffs: newStaffs
-        })
-        this.props.onAddStaff(newStaffs)
+        this.props.onAddStaff(newStaff)
     }
     toggleModal() {
         this.setState({
@@ -91,13 +87,8 @@ class Menu extends Component {
 
 
     render() {
-
-
-
-
         const RenderMenuItem = ({ staff }) => {
             return (
-
 
                 <div >
                     <Link to={`/menu/${staff.id}`}>
@@ -116,16 +107,27 @@ class Menu extends Component {
             );
         }
 
-        const menu = this.state.staffs.map((staff) => {
-            return (
+        const ListOfStaffs = ({ isLoading, errMessage, staffs }) => {
+            if (isLoading) {
+                return <Loading />
+            } else if (errMessage) {
+                return <div className="col-12"><h5>{errMessage}</h5></div>
+            } else {
+                return (this.state.search ? staffs.filter(x => x.name.toLowerCase().
+                    match(this.state.search.toLowerCase())) : staffs).map((staff) => {
+                        return (
 
-                <div className={this.props.classNameStaffList} key={staff.id}>
+                            <div className={this.state.classNameStaffList} key={staff.id}>
 
-                    <RenderMenuItem staff={staff} />
+                                <RenderMenuItem staff={staff}
+                                />
 
-                </div>
-            );
-        });
+                            </div>
+                        );
+
+                    });
+            }
+        }
 
         return (
 
@@ -283,7 +285,7 @@ class Menu extends Component {
                                     <Row className="form-group">
                                         <Label htmlFor="salaryScale" md={3}>Hệ số lương</Label>
                                         <Col md={9}>
-                                            <Control.text   model=".salaryScale" name="salaryScale" placeholder="1.0 -> 3.0"
+                                            <Control.text model=".salaryScale" name="salaryScale" placeholder="1.0 -> 3.0"
                                                 className="form-control"
                                                 validators={{
                                                     required, isNumber
@@ -310,13 +312,13 @@ class Menu extends Component {
                                                 }}
                                             />
                                             <Errors
-                                            className="text-danger"
-                                            model=".annualLeave"
-                                            show="touched"
-                                            messages={{
-                                                required: '* trường bắt buộc',
-                                                isNumber :"Trường này chỉ nhận kí tự là số"
-                                            }}
+                                                className="text-danger"
+                                                model=".annualLeave"
+                                                show="touched"
+                                                messages={{
+                                                    required: '* trường bắt buộc',
+                                                    isNumber: "Trường này chỉ nhận kí tự là số"
+                                                }}
                                             />
 
                                         </Col>
@@ -324,20 +326,20 @@ class Menu extends Component {
                                     <Row className="form-group">
                                         <Label htmlFor="overTime" md={3}>Số ngày làm thêm</Label>
                                         <Col md={9}>
-                                            <Control.text  model=".overTime"  name="overTime" placeholder="ex: 1.5"
+                                            <Control.text model=".overTime" name="overTime" placeholder="ex: 1.5"
                                                 className="form-control"
                                                 validators={{
                                                     required, isNumber
                                                 }}
                                             />
                                             <Errors
-                                            className="text-danger"
-                                            model=".overTime"
-                                            show="touched"
-                                            messages={{
-                                                required: '* trường bắt buộc',
-                                                isNumber :"Trường này chỉ nhận kí tự là số"
-                                            }}
+                                                className="text-danger"
+                                                model=".overTime"
+                                                show="touched"
+                                                messages={{
+                                                    required: '* trường bắt buộc',
+                                                    isNumber: "Trường này chỉ nhận kí tự là số"
+                                                }}
                                             />
                                         </Col>
                                     </Row>
@@ -354,7 +356,11 @@ class Menu extends Component {
                     </ModalBody>
                 </Modal>
                 <div className="row">
-                    {menu}
+                    <ListOfStaffs
+                        isLoading={this.props.staffs.isLoading}
+                        staffs={this.props.staffs.staffs}
+                        errMessage={this.props.staffs.errMessage}
+                    />
                 </div>
             </div>
         );
