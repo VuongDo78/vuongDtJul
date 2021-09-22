@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap'
+import React from 'react';
+import { Card, CardText, CardBody, CardTitle } from 'reactstrap'
 import dateFormat from 'dateformat';
-class DishDetail extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        
-        if (this.props.dishes != null) {
-            const comments = this.props.dishes.comments.map((comment) => {
+const  DishDetail = (props) =>{
+   
+        if (props.dishes != null) {
+            const comments = props.dishes.comments.map((comment) => {
                 return (
                     <div className="col-12 col-md-5 m-1">
                         <CardBody key={comment.id}>
@@ -23,7 +19,7 @@ class DishDetail extends Component {
                     </div>
                 );
             });
-            const selectedDishes = this.props.dishes;
+            const selectedDishes =props.dishes;
             return (
                 <div className="container">
                     <div className="col-sm-6 col-md-4 mt-5">
@@ -46,7 +42,7 @@ class DishDetail extends Component {
         } else
             return null
     }
-}
+
 
 export default DishDetail;
 
