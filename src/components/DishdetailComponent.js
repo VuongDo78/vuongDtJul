@@ -1,47 +1,74 @@
 import React from 'react';
-import { Card, CardText, CardBody, CardTitle } from 'reactstrap'
+
 import dateFormat from 'dateformat';
-const  DishDetail = (props) =>{
-   
-        if (props.dishes != null) {
-            const comments = props.dishes.comments.map((comment) => {
-                return (
-                    <div className="col-12 col-md-5 m-1">
-                        <CardBody key={comment.id}>
-                            <CardText>{comment.rating}</CardText>
-                            <CardText>{comment.comment}</CardText>
-                            <CardText
-                            
-                            >{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).
-                            format(new Date(Date.parse(comment.date)))}</CardText>
-                            <CardText>{comment.author}</CardText>
-                        </CardBody>
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, Breadcrumb, BreadcrumbItem
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
+
+function RenderDish(props) {
+
+    return (
+        <Card>
+            <CardImg width="100%" key={props.dish.id} src={props.dish.image} alt={props.dish.name} />
+            <CardTitle>{props.dish.name}</CardTitle>
+        </Card>
+    );
+}
+function RenderComments(props) {
+    return (
+        <div className="col-12 col-md-6 m-1">
+            {
+                props.comments.map(el =>
+                    <Card key={el.dishId}>
+                        <CardText>{el.name}</CardText>
+                        <CardText>{el.comment}</CardText>
+                        <CardText>Đánh giá {el.rating} sao</CardText>
+                        <CardText>{dateFormat(props.comments.date)}</CardText>
+                        <CardText>{el.author}</CardText>
+                    </Card>
+                )
+            }
+        </div>
+    )
+}
+const DishDetail = (props) => {
+    console.log('props.comments', props.comments);
+
+    if (props.dish != null) {
+
+        const selectedDishes = props.dish;
+        return (
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{selectedDishes.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{selectedDishes.name}</h3>
+                        <hr />
                     </div>
-                );
-            });
-            const selectedDishes =props.dishes;
-            return (
-                <div className="container">
-                    <div className="col-sm-6 col-md-4 mt-5">
-                        <Card className="card">
-                            <CardBody className="card-body">
-                                <CardTitle className="card-title" tag="h5"> {selectedDishes.name}</CardTitle>
-                                <CardText>{selectedDishes.description}</CardText>
-                            </CardBody>
-                            <Card>
-                                <CardTitle>Comment</CardTitle>
-                                {comments}
-                            </Card>
-                          
-                        </Card>
+                    {/* <img src={selectedDishes.image} />
+                    <p>description: {selectedDishes.description}</p> */}
+                </div>
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderDish dish={selectedDishes} />
+                    </div>
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderComments comments={props.comments} />
                     </div>
                 </div>
+            </div>
+        );
 
-            );
 
-        } else
-            return null
-    }
+    } else
+        return null
+}
 
 
 export default DishDetail;

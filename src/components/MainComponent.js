@@ -25,7 +25,7 @@ class Main extends Component {
       leaders: LEADERS
     };
   }
-
+  
   onDishSelect(dishId) {
     this.setState({ selectedDish: dishId });
   }
@@ -40,6 +40,18 @@ class Main extends Component {
           />
       );
     }
+    const DishWithId = ({match}) => {
+      console.log('match.params.dishId', match.params.dishId);
+      let distItem = this.state.dishes.filter(el => el.id === Number(match.params.dishId));
+      console.log('distItem', distItem);
+      console.log('this.state.comments', this.state.comments);
+      
+      return(
+        console.log(this.state.comments.filter(el => el.id === Number(match.params.dishId))),
+          <DishDetail dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+            comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+      );
+    };
     return (
       <div className="container">
         <Header />
@@ -47,6 +59,7 @@ class Main extends Component {
           <Route path='/home' component={HomePage} />
           <Route exact path='/menu' component={() => <Menu dishes={this.state.dishes} />} />
           <Route exact path='/contactus' component={Contact} />
+          <Route path='/menu/:dishId' component={DishWithId} />
           <Redirect to="/home" />
 
         </Switch>
