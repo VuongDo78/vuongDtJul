@@ -13,30 +13,38 @@ import {
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from './shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 function RenderDish(props) {
 
     return (
+        <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
         <Card>
             <CardImg top src={baseUrl + props.dish.image} alt={props.dish.name} />
             <CardTitle>{props.dish.name}</CardTitle>
         </Card>
+        </FadeTransform>
     );
 }
 function RenderComments({ comments, postComment, dishId }) {
     return (
         <div className="col-12 col-md-6 m-1">
-            {
-                comments.map(el =>
-                    <Card key={el.dishId}>
-                        <CardText>{el.name}</CardText>
-                        <CardText>{el.comment}</CardText>
-                        <CardText>Đánh giá {el.rating} sao</CardText>
-                        <CardText>{dateFormat(comments.date)}</CardText>
-                        <CardText>{el.author}</CardText>
-                    </Card>
-                )
-            }
+            <Stagger in>
+                        {comments.map((comment) => {
+                            return (
+                                <Fade in>
+                                <li key={comment.id}>
+                                <p>{comment.comment}</p>
+                                <p>-- {comment.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                </li>
+                                </Fade>
+                            );
+                        })}
+                        </Stagger>
             <CommentForm dishId={dishId} postComment={postComment} />
 
 
