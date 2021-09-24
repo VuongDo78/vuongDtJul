@@ -12,12 +12,13 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from './shared/baseUrl';
 
 function RenderDish(props) {
 
     return (
         <Card>
-            <CardImg width="100%" key={props.dish.id} src={props.dish.image} alt={props.dish.name} />
+             <CardImg top src={baseUrl + props.dish.image} alt={props.dish.name} />
             <CardTitle>{props.dish.name}</CardTitle>
         </Card>
     );
