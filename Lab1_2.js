@@ -2,6 +2,8 @@ const http = require("http");
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/html');
     const url = req.url;
+    const method = req.method;
+
     const fs = require('fs');
     if (url === "/") {
         res.setHeader("Content-Type", "text/html");
@@ -10,8 +12,16 @@ const server = http.createServer((req, res) => {
         res.write('<form action = "/message" method = "POST"><input type="text" name="username"></input><button type = "submit">send</button></form></form>')
         res.end();
     }
-    if (url === "/message") {
-        fs.appendFileSync("message.txt", "DUMMY");
+    if (url === "/message" && method === "POST") {
+        const body = [];
+
+        req.on("data", (chunk) => {
+            body.push(chunk);
+            const parseBody = Buffer.concat(body).toString();
+            console.log(parseBody);
+            fs.appendFileSync("message.txt", " " + parseBody + " ");
+        })
+
         res.statusCode = 302;
         res.setHeader('Location', '/');
         res.end();
