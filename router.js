@@ -17,7 +17,7 @@ const requestHandler = (req, res) => {
             body.push(chunk);
             const parseBody = Buffer.concat(body).toString();
             console.log(parseBody);
-            fs.appendFileSync("message.txt", " " + parseBody + " ");
+            fs.appendFileSync("message.txt", " " + parseBody + "qtyyy\n" + "\n");
         })
 
         res.statusCode = 302;

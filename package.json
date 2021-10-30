@@ -1,0 +1,25 @@
+{
+    "dependencies": {
+        "nodemon": "^1.18.3"
+    },
+    "name": "note-app",
+    "version": "1.0.0",
+    "main": "Lab1_2.js",
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon Lab1_2.js",
+        "start-server": "nodemon Lab1_2.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/VuongDo78/NJS101x_01-A_VN_Lab.git"
+    },
+    "author": "Vuongdt",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/VuongDo78/NJS101x_01-A_VN_Lab/issues"
+    },
+    "homepage": "https://github.com/VuongDo78/NJS101x_01-A_VN_Lab#readme",
+    "description": ""
+}
